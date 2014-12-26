@@ -33,20 +33,20 @@ public class YouTubeSyncAdapter extends AbstractThreadedSyncAdapter {
     public final String LOG_TAG = YouTubeSyncAdapter.class.getSimpleName();
     public static final int SYNC_INTERVAL = 60 * 180;
     public static final int SYNC_FLEXTIME = SYNC_INTERVAL / 3;
-
-    private static final String[] NOTIFY_WEATHER_PROJECTION = new String[]{
-            VideoEntry.COLUMN_DESCRIPTION,
-            VideoEntry.COLUMN_DURATION,
-            VideoEntry.COLUMN_TITLE,
-            VideoEntry.COLUMN_THUMB_URL,
-            VideoEntry.COLUMN_VIDEO_URL
-    };
-
-    // these indices must match the projection
-    private static final int INDEX_WEATHER_ID = 0;
-    private static final int INDEX_MAX_TEMP = 1;
-    private static final int INDEX_MIN_TEMP = 2;
-    private static final int INDEX_SHORT_DESC = 3;
+//
+//    private static final String[] NOTIFY_VIDEO_PROJECTION = new String[]{
+//            VideoEntry.COLUMN_DESCRIPTION,
+//            VideoEntry.COLUMN_DURATION,
+//            VideoEntry.COLUMN_TITLE,
+//            VideoEntry.COLUMN_THUMB_URL,
+//            VideoEntry.COLUMN_VIDEO_URL
+//    };
+//
+//    //these indices must match the projection
+//    private static final int INDEX_WEATHER_ID = 0;
+//    private static final int INDEX_MAX_TEMP = 1;
+//    private static final int INDEX_MIN_TEMP = 2;
+//    private static final int INDEX_SHORT_DESC = 3;
 
     public YouTubeSyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
@@ -75,9 +75,6 @@ public class YouTubeSyncAdapter extends AbstractThreadedSyncAdapter {
     }
 
     private String getJson() {
-        // Getting the author to send to the API
-        String authorQuery = "blundellp";//Utility.getPreferredLocation(getContext());
-
         HttpURLConnection urlConnection = null;
 
         String format = "jsonc";
@@ -102,8 +99,7 @@ public class YouTubeSyncAdapter extends AbstractThreadedSyncAdapter {
             // Read the input stream into a String
             InputStream inputStream = urlConnection.getInputStream();
             if (inputStream == null) {
-                // Nothing to do.
-                return authorQuery;
+                return null;
             }
 
             Scanner scanner = new Scanner(inputStream).useDelimiter("\\A");
@@ -141,6 +137,7 @@ public class YouTubeSyncAdapter extends AbstractThreadedSyncAdapter {
 
                 JSONObject thumbObject = videoDetails.getJSONObject("thumbnail");
                 String thumbVideoUrl = thumbObject.getString("sqDefault");
+                String highQualityThumbVideoUrl = thumbObject.getString("hqDefault");
                 JSONObject playerObject = videoDetails.getJSONObject("player");
 
                 String videoUrl = playerObject.optString("default");
@@ -154,6 +151,7 @@ public class YouTubeSyncAdapter extends AbstractThreadedSyncAdapter {
                 weatherValues.put(VideoEntry.COLUMN_DESCRIPTION, description);
                 weatherValues.put(VideoEntry.COLUMN_DURATION, duration);
                 weatherValues.put(VideoEntry.COLUMN_THUMB_URL, thumbVideoUrl);
+                weatherValues.put(VideoEntry.COLUMN_HQ_THUMB_URL, highQualityThumbVideoUrl);
                 weatherValues.put(VideoEntry.COLUMN_VIDEO_URL, videoUrl);
 
                 cVVector.add(weatherValues);

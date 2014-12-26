@@ -50,6 +50,7 @@ public class VideoDbHelper extends SQLiteOpenHelper {
                 VideoEntry.COLUMN_DESCRIPTION + " TEXT NOT NULL, " +
                 VideoEntry.COLUMN_DURATION + " TEXT NOT NULL, " +
                 VideoEntry.COLUMN_THUMB_URL + " INTEGER NOT NULL," +
+                VideoEntry.COLUMN_HQ_THUMB_URL + " INTEGER NOT NULL," +
                 VideoEntry.COLUMN_VIDEO_URL + " INTEGER NOT NULL );";
 
         sqLiteDatabase.execSQL(SQL_CREATE_VIDEO_TABLE);

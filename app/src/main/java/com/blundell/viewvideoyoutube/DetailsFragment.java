@@ -68,15 +68,23 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         if (data != null && data.moveToFirst()) {
 
-            Picasso.with(getActivity()).load(VideoEntry.getThumbnailUrl(data)).into(imageView);
+            Picasso.with(getActivity()).load(getBestThumbnail(data)).into(imageView);
             titleView.setText(VideoEntry.getTitle(data));
             descriptionView.setText(formatDescription(data));
             durationView.setText(formatDuration(VideoEntry.getDuration(data)));
         }
     }
 
-    private String formatDescription(Cursor data) {
-        String description = VideoEntry.getDescription(data);
+    private String getBestThumbnail(Cursor cursor) {
+        String thumbnailUrl = VideoEntry.getHighQualityThumbnailUrl(cursor);
+        if (TextUtils.isEmpty(thumbnailUrl)) {
+            thumbnailUrl = VideoEntry.getThumbnailUrl(cursor);
+        }
+        return thumbnailUrl;
+    }
+
+    private String formatDescription(Cursor cursor) {
+        String description = VideoEntry.getDescription(cursor);
         if (TextUtils.isEmpty(description)) {
             return getString(R.string.oops_no_description);
         } else {

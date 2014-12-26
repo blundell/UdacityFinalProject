@@ -30,6 +30,7 @@ public class VideoContract {
         public static final String COLUMN_DESCRIPTION = "description";
         public static final String COLUMN_DURATION = "duration";
         public static final String COLUMN_THUMB_URL = "thumb_url";
+        public static final String COLUMN_HQ_THUMB_URL = "hq_thumb_url";
         public static final String COLUMN_VIDEO_URL = "video_url";
 
         public static Uri buildVideoUri() {
@@ -46,6 +47,10 @@ public class VideoContract {
 
         public static String getThumbnailUrl(Cursor cursor) {
             return cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_THUMB_URL));
+        }
+
+        public static String getHighQualityThumbnailUrl(Cursor cursor) {
+            return cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_HQ_THUMB_URL));
         }
 
         public static int getId(Cursor cursor) {

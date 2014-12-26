@@ -8,6 +8,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.blundell.viewvideoyoutube.sync.YouTubeSyncAdapter;
+
 public class MainActivity extends ActionBarActivity implements MainFragment.Listener {
 
     @Override
@@ -19,6 +21,8 @@ public class MainActivity extends ActionBarActivity implements MainFragment.List
                     .add(R.id.container, new MainFragment())
                     .commit();
         }
+
+        YouTubeSyncAdapter.initializeSyncAdapter(this);
     }
 
     @Override
