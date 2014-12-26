@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.blundell.viewvideoyoutube.sync.YouTubeSyncAdapter;
@@ -63,6 +64,18 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
         adapter = new VideoListAdapter(getActivity());
 
         listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Cursor cursor = adapter.getCursor();
+                if (cursor != null && cursor.moveToPosition(position)) {
+                    int videoId = VideoEntry.getId(cursor);
+                    Uri videoUri = VideoEntry.buildVideoUri(videoId);
+                    ((Listener) getActivity()).onVideoSelected(videoUri);
+                }
+                currentPosition = position;
+            }
+        });
         YouTubeSyncAdapter.syncImmediately(getActivity());
     }
 
@@ -85,5 +98,9 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
     @Override
     public void onLoaderReset(Loader<Cursor> cursorLoader) {
         adapter.swapCursor(null);
+    }
+
+    static interface Listener {
+        void onVideoSelected(Uri uri);
     }
 }

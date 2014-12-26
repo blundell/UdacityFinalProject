@@ -1,21 +1,27 @@
 package com.blundell.viewvideoyoutube;
 
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class MainActivity extends ActionBarActivity implements MainFragment.Listener {
+public class DetailsActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_details);
         if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new MainFragment())
+            Uri uri = getIntent().getData();
+
+            DetailsFragment fragment = new DetailsFragment();
+            Bundle args = new Bundle();
+            args.putParcelable(DetailsFragment.EXTRA_URI, uri);
+            fragment.setArguments(args);
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.container, fragment)
                     .commit();
         }
     }
@@ -23,7 +29,7 @@ public class MainActivity extends ActionBarActivity implements MainFragment.List
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_details, menu);
         return true;
     }
 
@@ -42,10 +48,4 @@ public class MainActivity extends ActionBarActivity implements MainFragment.List
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onVideoSelected(Uri uri) {
-        Intent intent = new Intent(this, DetailsActivity.class);
-        intent.setData(uri);
-        startActivity(intent);
-    }
 }

@@ -47,6 +47,18 @@ public class VideoContract {
         public static String getThumbnailUrl(Cursor cursor) {
             return cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_THUMB_URL));
         }
+
+        public static int getId(Cursor cursor) {
+            return cursor.getInt(cursor.getColumnIndexOrThrow(_ID));
+        }
+
+        public static String getDescription(Cursor cursor) {
+            return cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DESCRIPTION));
+        }
+
+        public static long getDuration(Cursor cursor) {
+            return cursor.getLong(cursor.getColumnIndexOrThrow(COLUMN_DURATION));
+        }
     }
 
 }

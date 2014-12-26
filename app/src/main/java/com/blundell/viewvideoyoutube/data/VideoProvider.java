@@ -25,15 +25,11 @@ import android.net.Uri;
 public class VideoProvider extends ContentProvider {
 
     // The URI Matcher used by this content provider.
-    private static final UriMatcher sUriMatcher = buildUriMatcher();
-    private VideoDbHelper dbHelper;
-
     private static final int VIDEOS = 100;
+    private static final int VIDEO = 101;
+    private static final UriMatcher URI_MATCHER = buildUriMatcher();
 
     private static UriMatcher buildUriMatcher() {
-        // I know what you're thinking.  Why create a UriMatcher when you can use regular
-        // expressions instead?  Because you're not crazy, that's why.
-
         // All paths added to the UriMatcher have a corresponding code to return when a match is
         // found.  The code passed into the constructor represents the code to return for the root
         // URI.  It's common to use NO_MATCH as the code for this case.
@@ -42,9 +38,12 @@ public class VideoProvider extends ContentProvider {
 
         // For each type of URI you want to add, create a corresponding code.
         matcher.addURI(authority, VideoContract.PATH_VIDEO, VIDEOS);
+        matcher.addURI(authority, VideoContract.PATH_VIDEO + "/#", VIDEO);
 
         return matcher;
     }
+
+    private VideoDbHelper dbHelper;
 
     @Override
     public boolean onCreate() {
@@ -53,14 +52,14 @@ public class VideoProvider extends ContentProvider {
     }
 
     @Override
-    public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs,
-                        String sortOrder) {
+    public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
         // Here's the switch statement that, given a URI, will determine what kind of request it is,
         // and query the database accordingly.
         Cursor retCursor;
-        switch (sUriMatcher.match(uri)) {
-            // "weather/*"
-            // "weather"
+        switch (URI_MATCHER.match(uri)) {
+            // "video/*"
+            // "video"
+            case VIDEO:
             case VIDEOS:
                 retCursor = dbHelper.getReadableDatabase().query(
                         VideoContract.VideoEntry.TABLE_NAME,
@@ -83,7 +82,7 @@ public class VideoProvider extends ContentProvider {
     public String getType(Uri uri) {
 
         // Use the Uri Matcher to determine what kind of URI this is.
-        int match = sUriMatcher.match(uri);
+        int match = URI_MATCHER.match(uri);
 
         switch (match) {
             case VIDEOS:
@@ -96,7 +95,7 @@ public class VideoProvider extends ContentProvider {
     @Override
     public Uri insert(Uri uri, ContentValues values) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        int match = sUriMatcher.match(uri);
+        int match = URI_MATCHER.match(uri);
         Uri returnUri;
 
         switch (match) {
@@ -118,7 +117,7 @@ public class VideoProvider extends ContentProvider {
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        int match = sUriMatcher.match(uri);
+        int match = URI_MATCHER.match(uri);
         int rowsDeleted;
         switch (match) {
             case VIDEOS:
@@ -138,7 +137,7 @@ public class VideoProvider extends ContentProvider {
     public int update(
             Uri uri, ContentValues values, String selection, String[] selectionArgs) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        int match = sUriMatcher.match(uri);
+        int match = URI_MATCHER.match(uri);
         int rowsUpdated;
 
         switch (match) {
@@ -157,7 +156,7 @@ public class VideoProvider extends ContentProvider {
     @Override
     public int bulkInsert(Uri uri, ContentValues[] values) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        int match = sUriMatcher.match(uri);
+        int match = URI_MATCHER.match(uri);
         switch (match) {
             case VIDEOS:
                 db.beginTransaction();
