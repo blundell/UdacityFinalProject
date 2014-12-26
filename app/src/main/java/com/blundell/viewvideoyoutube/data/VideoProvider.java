@@ -16,6 +16,7 @@
 package com.blundell.viewvideoyoutube.data;
 
 import android.content.ContentProvider;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
@@ -60,6 +61,16 @@ public class VideoProvider extends ContentProvider {
             // "video/*"
             // "video"
             case VIDEO:
+                retCursor = dbHelper.getReadableDatabase().query(
+                        VideoContract.VideoEntry.TABLE_NAME,
+                        projection,
+                        "_ID = ?",
+                        new String[]{String.valueOf(ContentUris.parseId(uri))},
+                        null,
+                        null,
+                        sortOrder
+                );
+                break;
             case VIDEOS:
                 retCursor = dbHelper.getReadableDatabase().query(
                         VideoContract.VideoEntry.TABLE_NAME,

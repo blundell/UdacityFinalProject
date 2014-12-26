@@ -82,13 +82,11 @@ public class YouTubeSyncAdapter extends AbstractThreadedSyncAdapter {
 
         String format = "jsonc";
         int version = 2;
-        String BASE_URL = "https://gdata.youtube.com/feeds/api/videos";
-        String AUTHOR_PARAM = "author";
+        String BASE_URL = "http://gdata.youtube.com/feeds/api/standardfeeds/most_popular";
         String FORMAT_PARAM = "alt";
         String VERSION_PARAM = "v";
 
         Uri builtUri = Uri.parse(BASE_URL).buildUpon()
-                .appendQueryParameter(AUTHOR_PARAM, authorQuery)
                 .appendQueryParameter(FORMAT_PARAM, format)
                 .appendQueryParameter(VERSION_PARAM, Integer.toString(version))
                 .build();
@@ -144,7 +142,11 @@ public class YouTubeSyncAdapter extends AbstractThreadedSyncAdapter {
                 JSONObject thumbObject = videoDetails.getJSONObject("thumbnail");
                 String thumbVideoUrl = thumbObject.getString("sqDefault");
                 JSONObject playerObject = videoDetails.getJSONObject("player");
-                String mobileVideoUrl = playerObject.getString("mobile");
+
+                String videoUrl = playerObject.optString("default");
+                if (playerObject.has("mobile")) {
+                    videoUrl = playerObject.optString("mobile");
+                }
 
                 ContentValues weatherValues = new ContentValues();
 
@@ -152,7 +154,7 @@ public class YouTubeSyncAdapter extends AbstractThreadedSyncAdapter {
                 weatherValues.put(VideoEntry.COLUMN_DESCRIPTION, description);
                 weatherValues.put(VideoEntry.COLUMN_DURATION, duration);
                 weatherValues.put(VideoEntry.COLUMN_THUMB_URL, thumbVideoUrl);
-                weatherValues.put(VideoEntry.COLUMN_VIDEO_URL, mobileVideoUrl);
+                weatherValues.put(VideoEntry.COLUMN_VIDEO_URL, videoUrl);
 
                 cVVector.add(weatherValues);
             }
@@ -248,8 +250,7 @@ public class YouTubeSyncAdapter extends AbstractThreadedSyncAdapter {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             // we can enable inexact timers in our periodic sync
             SyncRequest request = new SyncRequest.Builder().
-                    syncPeriodic(syncInterval, flexTime).
-                    setSyncAdapter(account, authority).build();
+                    syncPeriodic(syncInterval, flexTime).setSyncAdapter(account, authority).build();
             ContentResolver.requestSync(request);
         } else {
             ContentResolver.addPeriodicSync(account, authority, new Bundle(), syncInterval);
