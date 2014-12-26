@@ -16,6 +16,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.blundell.viewvideoyoutube.sync.YouTubeSyncAdapter;
+
 import static com.blundell.viewvideoyoutube.data.VideoContract.VideoEntry;
 
 public class MainFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
@@ -70,6 +72,7 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
                 currentPosition = position;
             }
         });
+        YouTubeSyncAdapter.syncImmediately(getActivity());
     }
 
     @Override
