@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -69,8 +70,17 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
 
             Picasso.with(getActivity()).load(VideoEntry.getThumbnailUrl(data)).into(imageView);
             titleView.setText(VideoEntry.getTitle(data));
-            descriptionView.setText(VideoEntry.getDescription(data));
+            descriptionView.setText(formatDescription(data));
             durationView.setText(formatDuration(VideoEntry.getDuration(data)));
+        }
+    }
+
+    private String formatDescription(Cursor data) {
+        String description = VideoEntry.getDescription(data);
+        if (TextUtils.isEmpty(description)) {
+            return getString(R.string.oops_no_description);
+        } else {
+            return description;
         }
     }
 
