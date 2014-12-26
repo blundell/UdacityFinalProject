@@ -244,8 +244,12 @@ public class YouTubeSyncAdapter extends AbstractThreadedSyncAdapter {
         String authority = VideoContract.CONTENT_AUTHORITY;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             // we can enable inexact timers in our periodic sync
+
             SyncRequest request = new SyncRequest.Builder().
-                    syncPeriodic(syncInterval, flexTime).setSyncAdapter(account, authority).build();
+                    syncPeriodic(syncInterval, flexTime)
+                    .setExtras(Bundle.EMPTY)
+                    .setSyncAdapter(account, authority)
+                    .build();
             ContentResolver.requestSync(request);
         } else {
             ContentResolver.addPeriodicSync(account, authority, new Bundle(), syncInterval);
@@ -274,8 +278,7 @@ public class YouTubeSyncAdapter extends AbstractThreadedSyncAdapter {
      */
     public static Account getSyncAccount(Context context) {
         // Get an instance of the Android account manager
-        AccountManager accountManager =
-                (AccountManager) context.getSystemService(Context.ACCOUNT_SERVICE);
+        AccountManager accountManager = (AccountManager) context.getSystemService(Context.ACCOUNT_SERVICE);
 
         // Create the account type and default account
         Account newAccount = new Account(context.getString(R.string.app_name), VideoContract.SYNC_ACC_TYPE);
@@ -283,10 +286,10 @@ public class YouTubeSyncAdapter extends AbstractThreadedSyncAdapter {
         // If the password doesn't exist, the account doesn't exist
         if (null == accountManager.getPassword(newAccount)) {
 
-        /*
-         * Add the account and account type, no password or user data
-         * If successful, return the Account object, otherwise report an error.
-         */
+            /*
+             * Add the account and account type, no password or user data
+             * If successful, return the Account object, otherwise report an error.
+             */
             if (!accountManager.addAccountExplicitly(newAccount, "", null)) {
                 return null;
             }
