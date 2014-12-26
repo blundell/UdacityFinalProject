@@ -20,9 +20,6 @@ import com.blundell.viewvideoyoutube.sync.YouTubeSyncAdapter;
 
 import static com.blundell.viewvideoyoutube.data.VideoContract.VideoEntry;
 
-/**
- * A placeholder fragment containing a simple view.
- */
 public class MainFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final String SELECTED_KEY = "selected_position";
@@ -49,8 +46,7 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
         listView = (ListView) rootView.findViewById(R.id.main_list_view);
 
         if (savedInstanceState != null && savedInstanceState.containsKey(SELECTED_KEY)) {
-            // The listview probably hasn't even been populated yet.  Actually perform the
-            // swap out in onLoadFinished.
+            // The listview probably hasn't even been populated yet.  Actually perform the swap out in onLoadFinished.
             currentPosition = savedInstanceState.getInt(SELECTED_KEY);
         }
 
