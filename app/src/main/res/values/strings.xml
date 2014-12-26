@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">ViewVideoYouTube</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+  <string name="content_authority">com.blundell.viewvideoyoutube</string>
+  <string name="sync_account_type">youtube.blundell.com</string>
+
+</resources>
