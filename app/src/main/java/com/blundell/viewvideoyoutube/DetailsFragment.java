@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v4.util.TimeUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -76,9 +75,7 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
     }
 
     private String formatDuration(long duration) {
-        StringBuilder build = new StringBuilder();
-        TimeUtils.formatDuration(duration, build);
-        return build.toString();
+        return getString(R.string.youtube_duration_format, duration);
     }
 
     @Override
