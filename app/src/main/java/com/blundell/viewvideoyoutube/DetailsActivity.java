@@ -7,7 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-public class DetailsActivity extends ActionBarActivity {
+public class DetailsActivity extends ActionBarActivity implements DetailsFragment.Listener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,4 +45,8 @@ public class DetailsActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onPlayVideo(Uri uri) {
+
+    }
 }

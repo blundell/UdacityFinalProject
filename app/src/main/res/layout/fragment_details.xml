@@ -12,12 +12,13 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.blundell.viewvideoyoutube.DetailsFragment">
 
-    <ImageView
+    <com.blundell.viewvideoyoutube.ForegroundImageView
       android:id="@+id/details_image"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_gravity="center"
       android:contentDescription="@null"
+      android:foreground="@android:drawable/ic_media_play"
       tools:src="@drawable/ic_launcher" />
 
     <TextView

@@ -65,14 +65,23 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
     }
 
     @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+    public void onLoadFinished(Loader<Cursor> loader, final Cursor data) {
         if (data != null && data.moveToFirst()) {
-
             Picasso.with(getActivity()).load(getBestThumbnail(data)).into(imageView);
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ((Listener) getActivity()).onPlayVideo(formatUrl(VideoEntry.getVideoUrl(data)));
+                }
+            });
             titleView.setText(VideoEntry.getTitle(data));
             descriptionView.setText(formatDescription(data));
             durationView.setText(formatDuration(VideoEntry.getDuration(data)));
         }
+    }
+
+    private Uri formatUrl(String videoUrl) {
+        return Uri.parse(videoUrl);
     }
 
     private String getBestThumbnail(Cursor cursor) {
@@ -98,6 +107,10 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
+        // do nothing
+    }
 
+    interface Listener {
+        void onPlayVideo(Uri uri);
     }
 }

@@ -64,6 +64,10 @@ public class VideoContract {
         public static long getDuration(Cursor cursor) {
             return cursor.getLong(cursor.getColumnIndexOrThrow(COLUMN_DURATION));
         }
+
+        public static String getVideoUrl(Cursor cursor) {
+            return cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_VIDEO_URL));
+        }
     }
 
 }
