@@ -49,7 +49,7 @@ public class DetailsActivity extends ActionBarActivity implements DetailsFragmen
     @Override
     public void onPlayVideo(Uri uri) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setDataAndType(uri, "video/mp4");
+        intent.setData(uri);
         startActivity(intent);
     }
 }

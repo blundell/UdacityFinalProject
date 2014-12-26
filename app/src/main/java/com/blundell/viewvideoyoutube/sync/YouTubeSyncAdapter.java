@@ -138,12 +138,9 @@ public class YouTubeSyncAdapter extends AbstractThreadedSyncAdapter {
                 JSONObject thumbObject = videoDetails.getJSONObject("thumbnail");
                 String thumbVideoUrl = thumbObject.getString("sqDefault");
                 String highQualityThumbVideoUrl = thumbObject.getString("hqDefault");
-                JSONObject playerObject = videoDetails.getJSONObject("player");
 
+                JSONObject playerObject = videoDetails.getJSONObject("player");
                 String videoUrl = playerObject.optString("default");
-                if (playerObject.has("mobile")) {
-                    videoUrl = playerObject.optString("mobile");
-                }
 
                 ContentValues weatherValues = new ContentValues();
 
