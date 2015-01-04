@@ -96,6 +96,14 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
         adapter.swapCursor(null);
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        if (currentPosition != ListView.INVALID_POSITION) {
+            outState.putInt(SELECTED_KEY, currentPosition   );
+        }
+        super.onSaveInstanceState(outState);
+    }
+
     static interface Listener {
         void onVideoSelected(Uri uri);
     }

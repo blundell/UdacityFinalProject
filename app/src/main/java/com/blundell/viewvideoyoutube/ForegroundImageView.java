@@ -10,7 +10,9 @@ import android.widget.ImageView;
 /**
  * https://gist.github.com/JakeWharton/0a251d67649305d84e8a
  * <p/>
- * Then modified to not scale the foreground to the ImageView size and draw centered
+ * Then modified to :
+ *  not scale the foreground to the ImageView size
+ *  draw the foreground centered
  */
 public class ForegroundImageView extends ImageView {
     private Drawable foreground;

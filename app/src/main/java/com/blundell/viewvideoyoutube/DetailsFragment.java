@@ -18,6 +18,8 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.concurrent.TimeUnit;
+
 import static com.blundell.viewvideoyoutube.data.VideoContract.VideoEntry;
 
 public class DetailsFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
@@ -102,7 +104,14 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
     }
 
     private String formatDuration(long duration) {
-        return getString(R.string.youtube_duration_format, duration);
+        long minutes = TimeUnit.SECONDS.toMinutes(duration);
+        long seconds = duration - TimeUnit.MINUTES.toSeconds(minutes);
+        if (minutes == 0) {
+            return getString(R.string.youtube_short_duration_format, seconds);
+        } else {
+            String formattedMinutes = getResources().getQuantityString(R.plurals.minutes, (int) minutes, minutes);
+            return getString(R.string.youtube_duration_format, formattedMinutes, seconds);
+        }
     }
 
     @Override
