@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <string name="app_name">ViewVideoYouTube</string>
+  <string name="hello_world">Hello world!</string>
+  <string name="action_settings">Settings</string>
+  <string name="content_authority">com.blundell.viewvideoyoutube</string>
+  <string name="sync_account_type">youtube.blundell.com</string>
+  <string name="title_activity_details">Details</string>
+  <string name="youtube_duration_format">%1$s %2$s secs</string>
+  <string name="youtube_short_duration_format">%1$s seconds</string>
+  <string name="label_main">Most Popular</string>
+  <string name="oops_no_description">Oops sorry this video doesn\'t have a description at the moment. Maybe they\'ll update it later if you\'re lucky!</string>
+
+  <plurals name="minutes">
+    <item quantity="one">%d min</item>
+    <item quantity="many">%d mins</item>
+    <item quantity="other">%d mins</item>
+  </plurals>
+
+</resources>

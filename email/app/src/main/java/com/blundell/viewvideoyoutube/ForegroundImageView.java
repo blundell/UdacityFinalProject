@@ -11,8 +11,8 @@ import android.widget.ImageView;
  * https://gist.github.com/JakeWharton/0a251d67649305d84e8a
  * <p/>
  * Then modified to :
- * not scale the foreground to the ImageView size
- * draw the foreground centered
+ *  not scale the foreground to the ImageView size
+ *  draw the foreground centered
  */
 public class ForegroundImageView extends ImageView {
     private Drawable foreground;
@@ -77,9 +77,7 @@ public class ForegroundImageView extends ImageView {
     @Override
     public void jumpDrawablesToCurrentState() {
         super.jumpDrawablesToCurrentState();
-        if (foreground != null) {
-            foreground.jumpToCurrentState();
-        }
+        if (foreground != null) foreground.jumpToCurrentState();
     }
 
     @Override
@@ -93,27 +91,35 @@ public class ForegroundImageView extends ImageView {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        foreground.setBounds(0, 0, foreground.getIntrinsicWidth(), foreground.getIntrinsicHeight());
-        invalidate();
+        if (foreground != null) {
+
+            foreground.setBounds(0, 0, foreground.getIntrinsicWidth(), foreground.getIntrinsicHeight());
+            invalidate();
+        }
     }
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        foreground.setBounds(0, 0, foreground.getIntrinsicWidth(), foreground.getIntrinsicHeight());
-        invalidate();
+        if (foreground != null) {
+            foreground.setBounds(0, 0, foreground.getIntrinsicWidth(), foreground.getIntrinsicHeight());
+            invalidate();
+        }
     }
 
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
-        int halfForegroundWidth = foreground.getIntrinsicWidth() / 2;
-        int halfForegroundHeight = foreground.getIntrinsicHeight() / 2;
-        int left = (getMeasuredWidth() / 2) - halfForegroundWidth;
-        int top = (getMeasuredHeight() / 2) - halfForegroundHeight;
-        canvas.save();
-        canvas.translate(left, top);
-        foreground.draw(canvas);
-        canvas.restore();
+
+        if (foreground != null) {
+            int halfForegroundWidth = foreground.getIntrinsicWidth() / 2;
+            int halfForegroundHeight = foreground.getIntrinsicHeight() / 2;
+            int left = (getMeasuredWidth() / 2) - halfForegroundWidth;
+            int top = (getMeasuredHeight() / 2) - halfForegroundHeight;
+            canvas.save();
+            canvas.translate(left, top);
+            foreground.draw(canvas);
+            canvas.restore();
+        }
     }
 }
